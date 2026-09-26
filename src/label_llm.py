@@ -75,9 +75,8 @@ SCHEMA = {
 def sample_reviews(per_app: int) -> pd.DataFrame:
     df = pd.read_parquet(CLEAN_REVIEWS)
     df = df[df["substantive"]]
-    return (df.groupby("app", group_keys=False)
-              .apply(lambda g: g.sample(min(per_app, len(g)), random_state=SEED))
-              .reset_index(drop=True))
+    return pd.concat(g.sample(min(per_app, len(g)), random_state=SEED)
+                     for _, g in df.groupby("app")).reset_index(drop=True)
 
 
 def already_labelled() -> set[str]:

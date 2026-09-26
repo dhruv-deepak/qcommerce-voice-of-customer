@@ -22,12 +22,17 @@ def img(name: str) -> str:
     return f'<img src="data:image/png;base64,{b64}" alt="{html.escape(name)}">'
 
 
+def cell(v, fmt: str) -> str:
+    if isinstance(v, (int, float)) and pd.notna(v):
+        return f"{v:,.0f}" if float(v).is_integer() and abs(v) >= 1000 else fmt.format(v)
+    return html.escape(str(v))
+
+
 def table(df: pd.DataFrame, fmt: str = "{:.1f}") -> str:
     head = "".join(f"<th>{html.escape(str(c))}</th>" for c in [df.index.name or ""] + list(df.columns))
     rows = ""
     for idx, r in df.iterrows():
-        cells = "".join(f"<td>{fmt.format(v) if isinstance(v, (int, float)) and pd.notna(v) else html.escape(str(v))}</td>"
-                        for v in r)
+        cells = "".join(f"<td>{cell(v, fmt)}</td>" for v in r)
         rows += f"<tr><th>{html.escape(str(idx))}</th>{cells}</tr>"
     return f"<div class='tw'><table><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>"
 
@@ -44,6 +49,15 @@ def main() -> None:
     top = ins["top_complaint_overall"]
     most_damaging = drag.index[0]
     top_churn = churn.index[0]
+    churn_top3 = ", ".join(t.lower() for t in churn.index[:3])
+
+    # How far the lowest-rated app lags its peers on its own worst complaints
+    others = rates.drop(columns=worst_app).mean(axis=1)
+    gap = (rates[worst_app] / others).loc[rates[worst_app].sort_values(ascending=False).index[:4]]
+    gap_text = ", ".join(f"{t.lower()} ({r:.1f}×)" for t, r in gap.items())
+
+    replies = pd.DataFrame(ins["reply_stats"]).T
+    slowest_reply_hrs = replies["Median reply time (hrs)"].max()
 
     # Per-app priorities: biggest "stars at stake"
     recs = []
@@ -112,13 +126,16 @@ thead th {{ color:var(--ink2); font-weight:600; }}
 distilled classifier labelled the rest.</p>
 
 <div class="box"><b>Key findings</b><ul>
-<li><b>{html.escape(top)}</b> is the most common complaint across the category.</li>
-<li><b>{html.escape(most_damaging)}</b> does the most damage to ratings: a review that raises it scores
-{abs(drag.iloc[0]):.2f} stars lower, all else equal.</li>
-<li><b>{html.escape(top_churn)}</b> is the strongest churn trigger: {churn.iloc[0]['churn_rate']:.0f}% of customers
-raising it say they are leaving or switching.</li>
-<li>{html.escape(best_app)} rates highest ({sc.at[best_app, 'Avg stars']:.2f}★); {html.escape(worst_app)} rates lowest
-({sc.at[worst_app, 'Avg stars']:.2f}★).</li>
+<li><b>{html.escape(worst_app)} has a recovery problem, not a speed problem.</b> It rates {sc.at[worst_app, 'Avg stars']:.2f}★
+against {sc.drop(index=worst_app)['Avg stars'].min():.2f}–{sc.drop(index=worst_app)['Avg stars'].max():.2f}★ for its peers,
+and its gap is concentrated in what happens after an order goes wrong. Complaint rates vs the peer average:
+{html.escape(gap_text)}.</li>
+<li><b>The same after-sales loop drives churn.</b> The complaints most often paired with "I'm leaving" are
+{html.escape(churn_top3)} (up to {churn.iloc[0]['churn_rate']:.0f}% of reviews raising them).</li>
+<li><b>{html.escape(top)}</b> is the most common complaint across the category, and
+<b>{html.escape(most_damaging.lower())}</b> costs the most rating per mention ({abs(drag.iloc[0]):.2f}★).</li>
+<li><b>Replying is not resolving.</b> Every app answers {replies['Reply rate (%)'].min():.0f}%+ of 1–2★ reviews within a median
+{slowest_reply_hrs * 60:.0f} minutes, which points to templated replies. Resolution quality, not reply rate, is the metric to manage.</li>
 </ul></div>
 
 <h2>Recommendation: one priority fix per app</h2>

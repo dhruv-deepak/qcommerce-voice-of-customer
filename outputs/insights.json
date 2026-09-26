@@ -1,0 +1,372 @@
+{
+  "period": [
+    "2026-07-27",
+    "2026-09-25"
+  ],
+  "n_reviews": 128229,
+  "n_substantive": 37812,
+  "n_claude_labelled": 2000,
+  "scorecard": {
+    "Blinkit": {
+      "Reviews": 84274,
+      "Avg stars": 4.09,
+      "% 1-star": 16.0,
+      "% negative": 18.68,
+      "Complaints per 100 reviews": 23.61,
+      "% threatening to leave": 0.44,
+      "Reply rate to 1-2 star (%)": 97.46
+    },
+    "Zepto": {
+      "Reviews": 14103,
+      "Avg stars": 3.29,
+      "% 1-star": 38.96,
+      "% negative": 41.45,
+      "Complaints per 100 reviews": 73.06,
+      "% threatening to leave": 3.4,
+      "Reply rate to 1-2 star (%)": 97.37
+    },
+    "Instamart": {
+      "Reviews": 13958,
+      "Avg stars": 4.06,
+      "% 1-star": 17.09,
+      "% negative": 19.42,
+      "Complaints per 100 reviews": 27.78,
+      "% threatening to leave": 0.97,
+      "Reply rate to 1-2 star (%)": 99.55
+    },
+    "bigbasket": {
+      "Reviews": 15894,
+      "Avg stars": 4.15,
+      "% 1-star": 17.17,
+      "% negative": 18.71,
+      "Complaints per 100 reviews": 30.92,
+      "% threatening to leave": 0.82,
+      "Reply rate to 1-2 star (%)": 93.36
+    }
+  },
+  "complaint_rates": {
+    "Blinkit": {
+      "Customer support": 2.79,
+      "Product quality": 2.74,
+      "Missing / wrong items": 2.62,
+      "Refunds & returns": 2.44,
+      "Availability": 2.37,
+      "Delivery speed": 2.01,
+      "Pricing & fees": 3.35,
+      "Delivery partner": 1.77,
+      "App experience": 1.07,
+      "Offers & coupons": 0.8,
+      "Payments": 1.12,
+      "Account issues": 0.51
+    },
+    "Zepto": {
+      "Customer support": 15.42,
+      "Product quality": 11.36,
+      "Missing / wrong items": 11.34,
+      "Refunds & returns": 10.79,
+      "Availability": 3.7,
+      "Delivery speed": 4.46,
+      "Pricing & fees": 3.32,
+      "Delivery partner": 4.28,
+      "App experience": 3.41,
+      "Offers & coupons": 1.67,
+      "Payments": 1.81,
+      "Account issues": 1.49
+    },
+    "Instamart": {
+      "Customer support": 3.94,
+      "Product quality": 3.21,
+      "Missing / wrong items": 3.12,
+      "Refunds & returns": 3.12,
+      "Availability": 2.47,
+      "Delivery speed": 1.33,
+      "Pricing & fees": 3.07,
+      "Delivery partner": 1.36,
+      "App experience": 1.68,
+      "Offers & coupons": 2.73,
+      "Payments": 1.14,
+      "Account issues": 0.61
+    },
+    "bigbasket": {
+      "Customer support": 5.11,
+      "Product quality": 2.67,
+      "Missing / wrong items": 2.33,
+      "Refunds & returns": 2.76,
+      "Availability": 4.11,
+      "Delivery speed": 3.59,
+      "Pricing & fees": 1.42,
+      "Delivery partner": 2.59,
+      "App experience": 1.98,
+      "Offers & coupons": 1.96,
+      "Payments": 1.18,
+      "Account issues": 1.21
+    }
+  },
+  "praise_rates": {
+    "Blinkit": {
+      "Delivery speed": 5.53,
+      "Product quality": 1.28,
+      "App experience": 1.79,
+      "Offers & coupons": 0.33,
+      "Availability": 1.66,
+      "Pricing & fees": 0.39,
+      "Delivery partner": 0.64,
+      "Customer support": 0.7,
+      "Missing / wrong items": 0.53,
+      "Refunds & returns": 0.0,
+      "Payments": 0.0,
+      "Account issues": 0.0
+    },
+    "Zepto": {
+      "Delivery speed": 3.75,
+      "Product quality": 1.91,
+      "App experience": 0.63,
+      "Offers & coupons": 0.64,
+      "Availability": 0.62,
+      "Pricing & fees": 1.24,
+      "Delivery partner": 0.65,
+      "Customer support": 0.55,
+      "Missing / wrong items": 0.47,
+      "Refunds & returns": 0.01,
+      "Payments": 0.02,
+      "Account issues": 0.0
+    },
+    "Instamart": {
+      "Delivery speed": 3.2,
+      "Product quality": 1.33,
+      "App experience": 1.22,
+      "Offers & coupons": 1.45,
+      "Availability": 0.8,
+      "Pricing & fees": 0.97,
+      "Delivery partner": 0.28,
+      "Customer support": 0.44,
+      "Missing / wrong items": 0.21,
+      "Refunds & returns": 0.01,
+      "Payments": 0.01,
+      "Account issues": 0.0
+    },
+    "bigbasket": {
+      "Delivery speed": 5.03,
+      "Product quality": 2.84,
+      "App experience": 0.91,
+      "Offers & coupons": 1.42,
+      "Availability": 0.66,
+      "Pricing & fees": 0.99,
+      "Delivery partner": 1.04,
+      "Customer support": 0.65,
+      "Missing / wrong items": 0.36,
+      "Refunds & returns": 0.02,
+      "Payments": 0.0,
+      "Account issues": 0.0
+    }
+  },
+  "rating_drag": {
+    "Delivery speed": -1.301,
+    "Missing / wrong items": -0.858,
+    "Product quality": -1.189,
+    "Availability": -0.733,
+    "Pricing & fees": -1.2,
+    "Offers & coupons": -1.161,
+    "Payments": -0.881,
+    "Refunds & returns": -0.803,
+    "Customer support": -1.126,
+    "Delivery partner": -1.061,
+    "App experience": -1.052,
+    "Account issues": -1.14
+  },
+  "stars_at_stake_top3": {
+    "Blinkit": {
+      "Pricing & fees": 0.04,
+      "Product quality": 0.033,
+      "Customer support": 0.031
+    },
+    "Zepto": {
+      "Customer support": 0.174,
+      "Product quality": 0.135,
+      "Missing / wrong items": 0.097
+    },
+    "Instamart": {
+      "Customer support": 0.044,
+      "Product quality": 0.038,
+      "Pricing & fees": 0.037
+    },
+    "bigbasket": {
+      "Customer support": 0.058,
+      "Delivery speed": 0.047,
+      "Product quality": 0.032
+    }
+  },
+  "churn_by_topic": {
+    "Customer support": {
+      "reviews": 5886,
+      "churn_rate": 9.2
+    },
+    "Missing / wrong items": {
+      "reviews": 4612,
+      "churn_rate": 9.1
+    },
+    "Refunds & returns": {
+      "reviews": 4455,
+      "churn_rate": 8.5
+    },
+    "Product quality": {
+      "reviews": 4784,
+      "churn_rate": 6.5
+    },
+    "Delivery partner": {
+      "reviews": 2693,
+      "churn_rate": 4.8
+    },
+    "Delivery speed": {
+      "reviews": 3082,
+      "churn_rate": 3.7
+    },
+    "App experience": {
+      "reviews": 1936,
+      "churn_rate": 3.7
+    },
+    "Availability": {
+      "reviews": 3520,
+      "churn_rate": 2.8
+    },
+    "Payments": {
+      "reviews": 1549,
+      "churn_rate": 2.6
+    },
+    "Offers & coupons": {
+      "reviews": 1601,
+      "churn_rate": 2.3
+    },
+    "Pricing & fees": {
+      "reviews": 3947,
+      "churn_rate": 2.2
+    },
+    "Account issues": {
+      "reviews": 922,
+      "churn_rate": 2.1
+    }
+  },
+  "switching_flows": {
+    "Blinkit": {
+      "Amazon": 0,
+      "Blinkit": 0,
+      "Flipkart Minutes": 0,
+      "Instamart": 2,
+      "JioMart": 2,
+      "Local store": 0,
+      "Other": 2,
+      "Zepto": 9,
+      "bigbasket": 1
+    },
+    "Zepto": {
+      "Amazon": 1,
+      "Blinkit": 14,
+      "Flipkart Minutes": 3,
+      "Instamart": 3,
+      "JioMart": 0,
+      "Local store": 1,
+      "Other": 2,
+      "Zepto": 0,
+      "bigbasket": 2
+    },
+    "Instamart": {
+      "Amazon": 2,
+      "Blinkit": 7,
+      "Flipkart Minutes": 0,
+      "Instamart": 0,
+      "JioMart": 0,
+      "Local store": 5,
+      "Other": 5,
+      "Zepto": 9,
+      "bigbasket": 1
+    },
+    "bigbasket": {
+      "Amazon": 1,
+      "Blinkit": 6,
+      "Flipkart Minutes": 1,
+      "Instamart": 1,
+      "JioMart": 1,
+      "Local store": 1,
+      "Other": 9,
+      "Zepto": 4,
+      "bigbasket": 0
+    }
+  },
+  "rising_complaints": [
+    {
+      "app": "bigbasket",
+      "topic": "Customer support",
+      "prior": 4.17,
+      "recent": 5.96,
+      "change_pp": 1.79
+    },
+    {
+      "app": "bigbasket",
+      "topic": "Delivery speed",
+      "prior": 2.9,
+      "recent": 4.26,
+      "change_pp": 1.36
+    },
+    {
+      "app": "bigbasket",
+      "topic": "Delivery partner",
+      "prior": 2.08,
+      "recent": 3.0,
+      "change_pp": 0.92
+    },
+    {
+      "app": "bigbasket",
+      "topic": "Product quality",
+      "prior": 2.21,
+      "recent": 3.03,
+      "change_pp": 0.82
+    },
+    {
+      "app": "Zepto",
+      "topic": "Pricing & fees",
+      "prior": 2.89,
+      "recent": 3.69,
+      "change_pp": 0.8
+    },
+    {
+      "app": "Zepto",
+      "topic": "Account issues",
+      "prior": 1.08,
+      "recent": 1.87,
+      "change_pp": 0.79
+    },
+    {
+      "app": "bigbasket",
+      "topic": "Availability",
+      "prior": 3.78,
+      "recent": 4.45,
+      "change_pp": 0.67
+    },
+    {
+      "app": "bigbasket",
+      "topic": "Missing / wrong items",
+      "prior": 1.99,
+      "recent": 2.58,
+      "change_pp": 0.59
+    }
+  ],
+  "reply_stats": {
+    "Blinkit": {
+      "Reply rate (%)": 97.5,
+      "Median reply time (hrs)": 0.2
+    },
+    "Zepto": {
+      "Reply rate (%)": 97.4,
+      "Median reply time (hrs)": 0.0
+    },
+    "Instamart": {
+      "Reply rate (%)": 99.6,
+      "Median reply time (hrs)": 0.1
+    },
+    "bigbasket": {
+      "Reply rate (%)": 93.4,
+      "Median reply time (hrs)": 0.2
+    }
+  },
+  "top_complaint_overall": "Customer support"
+}
