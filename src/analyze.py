@@ -14,6 +14,7 @@ import json
 import matplotlib
 
 matplotlib.use("Agg")
+import matplotlib.dates
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -191,11 +192,20 @@ def chart_priority_matrix(df: pd.DataFrame, drag: pd.Series, churn: pd.DataFrame
     x, y = share[topics], -drag[topics]
     size = 30 + 12 * churn.loc[topics, "churn_rate"]
     ax.scatter(x, y, s=size, color=APP_COLORS["Blinkit"], alpha=0.75, edgecolor=SURFACE, linewidth=2)
-    for t in topics:
-        ax.annotate(t, (x[t], y[t]), xytext=(7, 4), textcoords="offset points", fontsize=8.5, color=INK2)
+    ax.margins(x=0.18, y=0.12)
+    fig.canvas.draw()
+    placed = []  # label anchors in pixels; nudge down when two labels would collide
+    for t in sorted(topics, key=lambda t: -y[t]):
+        px, py = ax.transData.transform((x[t], y[t]))
+        dy = 4
+        while any(abs(px - qx) < 110 and abs(py + dy - qy) < 13 for qx, qy in placed):
+            dy -= 13
+        placed.append((px, py + dy))
+        ax.annotate(t, (x[t], y[t]), xytext=(8, dy), textcoords="offset points", fontsize=8.5, color=INK2,
+                    va="center")
     ax.axvline(x.median(), color=AXIS, linewidth=0.8)
     ax.axhline(y.median(), color=AXIS, linewidth=0.8)
-    ax.text(ax.get_xlim()[1], ax.get_ylim()[1], "Fix first: common and damaging", ha="right", va="top",
+    ax.text(1, 1.01, "Top right = fix first", transform=ax.transAxes, ha="right", va="bottom",
             fontsize=8.5, color=MUTED)
     ax.set_xlabel("How common: complaints per 100 reviews (all apps)", color=INK2)
     ax.set_ylabel("How damaging: star drop when raised", color=INK2)
@@ -226,7 +236,7 @@ def chart_trend(df: pd.DataFrame, topic_col: str, name: str):
     ax.set_ylim(bottom=0)
     ax.set_ylabel("per 100 reviews", color=INK2)
     ax.set_title(f"{nice(topic_col)} complaints, weekly", loc="left", color=INK, fontsize=11)
-    fig.autofmt_xdate()
+    ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%d %b"))
     _save(fig, name)
 
 

@@ -1,5 +1,7 @@
-# Secrets
+# Secrets (any .env variant, e.g. .env.txt saved by Notepad)
 .env
+.env.*
+!.env.example
 
 # Raw and labelled review text is not republished; only aggregated outputs are
 data/
