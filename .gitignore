@@ -1,0 +1,10 @@
+# Secrets
+.env
+
+# Raw and labelled review text is not republished; only aggregated outputs are
+data/
+models/
+
+__pycache__/
+*.pyc
+.venv/
