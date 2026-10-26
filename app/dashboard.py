@@ -39,9 +39,9 @@ if df.empty:
 cols = st.columns(len(apps))
 for col, app in zip(cols, apps):
     a = df[df["app"] == app]
-    col.metric(app, f"{a['stars'].mean():.2f} ★", f"{100 * (a['stars'] == 1).mean():.0f}% one-star",
-               delta_color="off")
-    col.caption(f"{len(a):,} reviews · {100 * a['churn_intent'].mean():.1f}% threaten to leave")
+    col.metric(app, f"{a['stars'].mean():.2f} ★")
+    col.caption(f"{100 * (a['stars'] == 1).mean():.0f}% one-star · {len(a):,} reviews · "
+                f"{100 * a['churn_intent'].mean():.1f}% threaten to leave")
 
 tab1, tab2, tab3, tab4 = st.tabs(["Pain points", "Priority matrix", "Trends", "Read the reviews"])
 
@@ -51,14 +51,18 @@ with tab1:
     order = rates.groupby("topic")["per100"].mean().sort_values(ascending=False).index.tolist()
     heat = alt.Chart(rates).mark_rect(stroke="white", strokeWidth=2).encode(
         x=alt.X("app:N", sort=APPS, title=None, axis=alt.Axis(orient="top", labelAngle=0)),
-        y=alt.Y("topic:N", sort=order, title=None),
+        y=alt.Y("topic:N", sort=order, title=None, axis=alt.Axis(labelLimit=220)),
         color=alt.Color("per100:Q", scale=alt.Scale(scheme="blues"), title="per 100 reviews"),
         tooltip=["app", "topic", alt.Tooltip("per100:Q", format=".1f", title="per 100 reviews")],
     )
-    text = heat.mark_text(fontSize=11).encode(text=alt.Text("per100:Q", format=".1f"),
-                                              color=alt.value("#0b0b0b"))
+    dark_cell = rates["per100"].max() * 0.55
+    text = heat.mark_text(fontSize=11).encode(
+        text=alt.Text("per100:Q", format=".1f"),
+        color=alt.condition(alt.datum.per100 > dark_cell, alt.value("white"), alt.value("#0b0b0b")),
+    )
     st.altair_chart((heat + text).properties(height=420), use_container_width=True)
-    st.caption("Complaints per 100 reviews. The denominator is every review, so apps compare fairly.")
+    st.caption("Complaints per 100 reviews, with every review in the denominator. Zepto's reviewers write longer "
+               "reviews, which widens its gap; the same pattern holds among 1–2★ reviews alone.")
 
 with tab2:
     drag = rating_drag(df)
@@ -66,15 +70,18 @@ with tab2:
     share = (100 * df[C].mean()).rename(lambda c: nice(c))
     pm = pd.DataFrame({"topic": share.index, "per100": share.values, "star_drop": -drag.reindex(share.index).values})
     pm = pm.merge(churn.reset_index(), on="topic", how="left")
-    chart = alt.Chart(pm).mark_circle(opacity=0.8, stroke="white", strokeWidth=2, color=APP_COLORS["Blinkit"]).encode(
+    base = alt.Chart(pm).encode(
         x=alt.X("per100:Q", title="How common (complaints per 100 reviews)"),
-        y=alt.Y("star_drop:Q", title="How damaging (star drop when raised)"),
+        y=alt.Y("star_drop:Q", title="How damaging (star drop when raised)", scale=alt.Scale(zero=False)),
+    )
+    bubbles = base.mark_circle(opacity=0.8, stroke="white", strokeWidth=2, color=APP_COLORS["Blinkit"]).encode(
         size=alt.Size("churn_rate:Q", title="% threatening to leave", scale=alt.Scale(range=[60, 900])),
         tooltip=["topic", alt.Tooltip("per100:Q", format=".1f"), alt.Tooltip("star_drop:Q", format=".2f"),
                  alt.Tooltip("churn_rate:Q", format=".0f", title="% threaten to leave")],
     )
-    labels = chart.mark_text(align="left", dx=10, fontSize=11, color="#52514e").encode(text="topic")
-    st.altair_chart((chart + labels).properties(height=480), use_container_width=True)
+    # Labels come from the shared base, not the bubbles, so they don't inherit the bubble-size encoding
+    labels = base.mark_text(align="left", dx=12, fontSize=12, color="#8a8f98").encode(text="topic")
+    st.altair_chart((bubbles + labels).properties(height=480), use_container_width=True)
     st.caption("Top-right = fix first. Star drop comes from a regression of stars on complaint flags with app "
                "fixed effects. It is correlational, not causal.")
 
