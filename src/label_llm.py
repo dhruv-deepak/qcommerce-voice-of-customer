@@ -118,6 +118,19 @@ def label_batch(client: anthropic.Anthropic, model: str, batch: pd.DataFrame) ->
     return rows, response.usage
 
 
+def setup_problem(e: Exception) -> str | None:
+    """Explain errors caused by missing or unusable credentials, which no retry will fix."""
+    if isinstance(e, TypeError) and "authentication" in str(e).lower():
+        return "no Anthropic API key found. Copy .env.example to .env, paste your key after ANTHROPIC_API_KEY=, and re-run."
+    if isinstance(e, anthropic.AuthenticationError):
+        return "the API key was rejected. Check the key in .env (no quotes or spaces) and re-run."
+    if isinstance(e, anthropic.PermissionDeniedError):
+        return "this API key is not allowed to use this model. Check the key's permissions in the Anthropic Console."
+    if isinstance(e, anthropic.BadRequestError) and "credit" in str(e).lower():
+        return "the account has no credit left. Add credit in the Anthropic Console (Billing) and re-run."
+    return None
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--per-app", type=int, default=750)
@@ -142,7 +155,13 @@ def main() -> None:
         for n, fut in enumerate(as_completed(futures), 1):
             try:
                 rows, usage = fut.result()
-            except (anthropic.APIError, RuntimeError, json.JSONDecodeError, StopIteration) as e:
+            except Exception as e:
+                problem = setup_problem(e)
+                if problem:  # every remaining batch would fail the same way, so stop now
+                    pool.shutdown(cancel_futures=True)
+                    raise SystemExit(f"\nStopped: {problem}") from None
+                if not isinstance(e, (anthropic.APIError, RuntimeError, json.JSONDecodeError, StopIteration)):
+                    raise
                 failed += 1
                 print(f"\n  batch failed: {e}")
                 continue
